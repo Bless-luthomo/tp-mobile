@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
         title: const Text(
           'Tableau de Bord',
           style: TextStyle(
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.bold,
             fontSize: 22,
             letterSpacing: 0.5,
           ),
@@ -23,11 +23,11 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.white,
         flexibleSpace: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [const Color(0xFF1DB954), const Color(0xFF121212)],
+              colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
             ),
           ),
         ),
@@ -35,9 +35,7 @@ class HomePage extends StatelessWidget {
           IconButton(
             onPressed: () async {
               await AuthService().signOut();
-              if (context.mounted) {
-                context.go('/login');
-              }
+              if (context.mounted) context.go('/login');
             },
             icon: Icon(
               Icons.logout_rounded,
@@ -55,22 +53,21 @@ class HomePage extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                const Color(0xFF667EEA).withOpacity(0.1),
-                const Color(0xFF764BA2).withOpacity(0.1),
+                const Color(0xFF6A11CB).withOpacity(0.1),
+                const Color(0xFF2575FC).withOpacity(0.1),
               ],
             ),
           ),
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
-              // Header du drawer
               Container(
-                height: 200,
-                decoration: BoxDecoration(
+                height: 180,
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [const Color(0xFF667EEA), const Color(0xFF764BA2)],
+                    colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
                   ),
                 ),
                 child: Column(
@@ -87,11 +84,7 @@ class HomePage extends StatelessWidget {
                           width: 2,
                         ),
                       ),
-                      child: Icon(
-                        Icons.person_rounded,
-                        size: 40,
-                        color: Colors.white,
-                      ),
+                      child: const Icon(Icons.person_rounded, size: 40, color: Colors.white),
                     ),
                     const SizedBox(height: 16),
                     Text(
@@ -101,81 +94,44 @@ class HomePage extends StatelessWidget {
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
                       ),
-                      textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 4),
                     Text(
                       user?.email ?? '',
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(0.8),
-                        fontSize: 14,
-                      ),
-                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 14),
                     ),
                   ],
                 ),
               ),
-
-              // Menu items
-              _buildDrawerItem(
-                context,
-                Icons.dashboard_rounded,
-                'Tableau de bord',
-                () => Navigator.pop(context),
-                isSelected: true,
-              ),
-              _buildDrawerItem(context, Icons.person_rounded, 'Profil', () {
-                Navigator.pop(context);
-                // Navigation vers le profil
-              }),
-              _buildDrawerItem(
-                context,
-                Icons.settings_rounded,
-                'Paramètres',
-                () {
-                  Navigator.pop(context);
-                  // Navigation vers les paramètres
-                },
-              ),
-              _buildDrawerItem(context, Icons.help_rounded, 'Aide', () {
-                Navigator.pop(context);
-                // Navigation vers l'aide
-              }),
-
+              _buildDrawerItem(context, Icons.dashboard_rounded, 'Tableau de bord', () => Navigator.pop(context), isSelected: true),
+              _buildDrawerItem(context, Icons.person_rounded, 'Profil', () => Navigator.pop(context)),
+              _buildDrawerItem(context, Icons.settings_rounded, 'Paramètres', () => Navigator.pop(context)),
+              _buildDrawerItem(context, Icons.help_rounded, 'Aide', () => Navigator.pop(context)),
               const Divider(height: 32),
-
-              _buildDrawerItem(
-                context,
-                Icons.logout_rounded,
-                'Déconnexion',
-                () async {
-                  Navigator.pop(context);
-                  await AuthService().signOut();
-                  if (context.mounted) {
-                    context.go('/login');
-                  }
-                },
-                color: Colors.red.shade600,
-              ),
+              _buildDrawerItem(context, Icons.logout_rounded, 'Déconnexion', () async {
+                Navigator.pop(context);
+                await AuthService().signOut();
+                if (context.mounted) context.go('/login');
+              }, color: Colors.red.shade600),
             ],
           ),
         ),
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [const Color(0xFF121212), const Color(0xFF282828)],
+            colors: [Color(0xFF121212), Color(0xFF1E1E1E)],
           ),
         ),
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Welcome Section
+                // Welcome Card avec Glassmorphism
                 TweenAnimationBuilder(
                   tween: Tween<double>(begin: 0, end: 1),
                   duration: const Duration(milliseconds: 800),
@@ -184,88 +140,55 @@ class HomePage extends StatelessWidget {
                       opacity: value,
                       child: Transform.translate(
                         offset: Offset(0, 20 * (1 - value)),
-                        child: Card(
-                          elevation: 12,
-                          shape: RoundedRectangleBorder(
+                        child: Container(
+                          padding: const EdgeInsets.all(28),
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(24),
-                          ),
-                          shadowColor: const Color(0xFF667EEA).withOpacity(0.3),
-                          child: Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(32.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(24),
-                              gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [Colors.white, Colors.grey.shade50],
+                            color: Colors.white.withOpacity(0.1),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black26,
+                                blurRadius: 12,
+                                offset: Offset(0, 6),
                               ),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
+                            ],
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
+                                  ),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(Icons.waving_hand_rounded, size: 32, color: Colors.white),
+                              ),
+                              const SizedBox(width: 20),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Container(
-                                      padding: const EdgeInsets.all(16),
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            const Color(0xFF667EEA),
-                                            const Color(0xFF764BA2),
-                                          ],
-                                        ),
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: const Icon(
-                                        Icons.waving_hand_rounded,
+                                    Text('Bonjour,', style: TextStyle(color: Colors.grey.shade300, fontSize: 18)),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      user?.displayName ?? user?.email ?? 'Utilisateur',
+                                      style: const TextStyle(
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.bold,
                                         color: Colors.white,
-                                        size: 32,
                                       ),
                                     ),
-                                    const SizedBox(width: 20),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Bonjour,',
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.grey.shade600,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 4),
-                                          Text(
-                                            user?.displayName ??
-                                                user?.email ??
-                                                'Utilisateur',
-                                            style: const TextStyle(
-                                              fontSize: 28,
-                                              fontWeight: FontWeight.w700,
-                                              color: Color(0xFF667EEA),
-                                            ),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ],
-                                      ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      'Bienvenue sur votre espace personnel. Profitez d\'une expérience optimale !',
+                                      style: TextStyle(color: Colors.grey.shade400, fontSize: 14, height: 1.4),
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 24),
-                                Text(
-                                  'Bienvenue sur votre espace personnel. Nous sommes ravis de vous revoir !',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.grey.shade700,
-                                    height: 1.6,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -273,20 +196,11 @@ class HomePage extends StatelessWidget {
                   },
                 ),
 
-                const SizedBox(height: 40),
+                const SizedBox(height: 32),
 
                 // Quick Actions Grid
-                Text(
-                  'Actions rapides',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
+                Text('Actions rapides', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
+                const SizedBox(height: 16),
                 GridView.count(
                   crossAxisCount: 2,
                   shrinkWrap: true,
@@ -294,82 +208,27 @@ class HomePage extends StatelessWidget {
                   crossAxisSpacing: 16,
                   mainAxisSpacing: 16,
                   children: [
-                    _buildActionCard(
-                      context,
-                      'Profil',
-                      Icons.person_rounded,
-                      Colors.blue.shade600,
-                      () {
-                        // Navigate to profile
-                      },
-                    ),
-                    _buildActionCard(
-                      context,
-                      'Paramètres',
-                      Icons.settings_rounded,
-                      Colors.green.shade600,
-                      () {
-                        // Navigate to settings
-                      },
-                    ),
-                    _buildActionCard(
-                      context,
-                      'Aide',
-                      Icons.help_rounded,
-                      Colors.orange.shade600,
-                      () {
-                        // Navigate to help
-                      },
-                    ),
-                    _buildActionCard(
-                      context,
-                      'Support',
-                      Icons.support_rounded,
-                      Colors.purple.shade600,
-                      () {
-                        // Navigate to support
-                      },
-                    ),
+                    _buildActionCard(context, 'Profil', Icons.person_rounded, Colors.blueAccent, () {}),
+                    _buildActionCard(context, 'Paramètres', Icons.settings_rounded, Colors.greenAccent, () {}),
+                    _buildActionCard(context, 'Aide', Icons.help_rounded, Colors.orangeAccent, () {}),
+                    _buildActionCard(context, 'Support', Icons.support_rounded, Colors.purpleAccent, () {}),
                   ],
                 ),
 
-                const SizedBox(height: 40),
+                const SizedBox(height: 32),
 
                 // Stats Section
-                Text(
-                  'Statistiques',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
+                Text('Statistiques', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
+                const SizedBox(height: 16),
                 Row(
                   children: [
-                    Expanded(
-                      child: _buildStatCard(
-                        'Connexions',
-                        '12',
-                        Icons.login_rounded,
-                        Colors.teal.shade600,
-                      ),
-                    ),
+                    Expanded(child: _buildStatCard('Connexions', '12', Icons.login_rounded, Colors.tealAccent)),
                     const SizedBox(width: 16),
-                    Expanded(
-                      child: _buildStatCard(
-                        'Messages',
-                        '5',
-                        Icons.message_rounded,
-                        Colors.indigo.shade600,
-                      ),
-                    ),
+                    Expanded(child: _buildStatCard('Messages', '5', Icons.message_rounded, Colors.indigoAccent)),
                   ],
                 ),
 
-                const SizedBox(height: 40),
+                const SizedBox(height: 32),
 
                 // Motivational Section
                 Center(
@@ -383,33 +242,19 @@ class HomePage extends StatelessWidget {
                           scale: value,
                           child: Column(
                             children: [
-                              Icon(
-                                Icons.rocket_launch_rounded,
-                                size: 80,
-                                color: const Color(0xFF667EEA),
-                              ),
-                              const SizedBox(height: 24),
+                              Icon(Icons.rocket_launch_rounded, size: 80, color: const Color(0xFF6A11CB)),
+                              const SizedBox(height: 16),
                               Text(
                                 'Votre aventure commence ici',
-                                style: TextStyle(
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.w800,
-                                  color: const Color(0xFF667EEA),
-                                ),
+                                style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
                                 textAlign: TextAlign.center,
                               ),
-                              const SizedBox(height: 16),
+                              const SizedBox(height: 12),
                               Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
                                 child: Text(
                                   'Explorez les fonctionnalités et profitez de la meilleure expérience possible.',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.grey.shade600,
-                                    height: 1.6,
-                                  ),
+                                  style: TextStyle(color: Colors.grey.shade400, fontSize: 14, height: 1.4),
                                   textAlign: TextAlign.center,
                                 ),
                               ),
@@ -428,46 +273,24 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildDrawerItem(
-    BuildContext context,
-    IconData icon,
-    String title,
-    VoidCallback onTap, {
-    bool isSelected = false,
-    Color? color,
-  }) {
+  Widget _buildDrawerItem(BuildContext context, IconData icon, String title, VoidCallback onTap,
+      {bool isSelected = false, Color? color}) {
     return ListTile(
-      leading: Icon(
-        icon,
-        color:
-            color ??
-            (isSelected ? const Color(0xFF667EEA) : Colors.grey.shade700),
-        size: 24,
-      ),
-      title: Text(
-        title,
-        style: TextStyle(
-          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-          color:
-              color ??
-              (isSelected ? const Color(0xFF667EEA) : Colors.grey.shade700),
-          fontSize: 16,
-        ),
-      ),
+      leading: Icon(icon, color: color ?? (isSelected ? Colors.blueAccent : Colors.grey.shade400), size: 24),
+      title: Text(title,
+          style: TextStyle(
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+            color: color ?? (isSelected ? Colors.blueAccent : Colors.grey.shade400),
+            fontSize: 16,
+          )),
       onTap: onTap,
-      tileColor: isSelected ? const Color(0xFF667EEA).withOpacity(0.1) : null,
+      tileColor: isSelected ? Colors.blueAccent.withOpacity(0.1) : null,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
     );
   }
 
-  Widget _buildActionCard(
-    BuildContext context,
-    String title,
-    IconData icon,
-    Color color,
-    VoidCallback onTap,
-  ) {
+  Widget _buildActionCard(BuildContext context, String title, IconData icon, Color color, VoidCallback onTap) {
     return Card(
       elevation: 8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -478,26 +301,14 @@ class HomePage extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [color.withOpacity(0.1), color.withOpacity(0.05)],
-            ),
+            color: color.withOpacity(0.1),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(icon, size: 40, color: color),
               const SizedBox(height: 12),
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: color,
-                ),
-                textAlign: TextAlign.center,
-              ),
+              Text(title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: color)),
             ],
           ),
         ),
@@ -505,12 +316,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildStatCard(
-    String title,
-    String value,
-    IconData icon,
-    Color color,
-  ) {
+  Widget _buildStatCard(String title, String value, IconData icon, Color color) {
     return Card(
       elevation: 8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -518,33 +324,15 @@ class HomePage extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Colors.white, Colors.grey.shade50],
-          ),
+          color: Colors.white.withOpacity(0.1),
         ),
         child: Column(
           children: [
             Icon(icon, size: 32, color: color),
             const SizedBox(height: 8),
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w800,
-                color: color,
-              ),
-            ),
+            Text(value, style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: color)),
             const SizedBox(height: 4),
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey.shade600,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+            Text(title, style: TextStyle(fontSize: 14, color: Colors.grey.shade400)),
           ],
         ),
       ),

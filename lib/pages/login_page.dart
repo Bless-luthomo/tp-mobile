@@ -93,14 +93,12 @@ class _LoginPageState extends State<LoginPage> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
             colors: [
-              Color(0xFF1B1B2F),
-              Color(0xFF3A0CA3),
-              Color(0xFF1B1B2F),
+              Color(0xFF6A11CB),
+              Color(0xFF2575FC),
             ],
-            stops: [0.0, 0.5, 1.0],
           ),
         ),
         child: Center(
@@ -110,18 +108,29 @@ class _LoginPageState extends State<LoginPage> {
               key: _formKey,
               child: Column(
                 children: [
-                  // Logo principal
+                  // Nouveau logo modernisé
                   Container(
-                    width: 100,
-                    height: 100,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF9B5DE5),
+                    width: 120,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Colors.white, Colors.white70],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
                       shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 10,
+                          offset: Offset(0, 5),
+                        )
+                      ],
                     ),
                     child: const Icon(
-                      Icons.login_rounded,
-                      size: 50,
-                      color: Colors.white,
+                      Icons.flutter_dash_rounded,
+                      size: 60,
+                      color: Color(0xFF6A11CB),
                     ),
                   ),
 
@@ -149,19 +158,17 @@ class _LoginPageState extends State<LoginPage> {
                     keyboardType: TextInputType.emailAddress,
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white24,
                       labelText: 'Email',
                       labelStyle: const TextStyle(color: Colors.white70),
                       prefixIcon: const Icon(
                         Icons.email_outlined,
                         color: Colors.white70,
                       ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.white38),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Color(0xFF9B5DE5)),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide.none,
                       ),
                     ),
                     validator: (value) {
@@ -184,6 +191,8 @@ class _LoginPageState extends State<LoginPage> {
                     obscureText: _obscurePassword,
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white24,
                       labelText: 'Mot de passe',
                       labelStyle: const TextStyle(color: Colors.white70),
                       prefixIcon: const Icon(
@@ -200,13 +209,9 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () => setState(
                             () => _obscurePassword = !_obscurePassword),
                       ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.white38),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Color(0xFF9B5DE5)),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide.none,
                       ),
                     ),
                     validator: (value) {
@@ -228,7 +233,7 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: () => context.go('/forgot-password'),
                       child: const Text(
                         'Mot de passe oublié ?',
-                        style: TextStyle(color: Color(0xFF9B5DE5)),
+                        style: TextStyle(color: Colors.white70),
                       ),
                     ),
                   ),
@@ -243,11 +248,21 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed:
                           _isLoading ? null : _signInWithEmailAndPassword,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF9B5DE5),
+                        backgroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                       ),
                       child: _isLoading
-                          ? const CircularProgressIndicator(color: Colors.white)
-                          : const Text('Se connecter'),
+                          ? const CircularProgressIndicator(color: Color(0xFF6A11CB))
+                          : const Text(
+                              'Se connecter',
+                              style: TextStyle(
+                                color: Color(0xFF6A11CB),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
                     ),
                   ),
 
@@ -277,13 +292,13 @@ class _LoginPageState extends State<LoginPage> {
                         height: 24,
                       ),
                       label: const Text(
-                        'Google',
-                        style: TextStyle(color: Colors.black),
+                        'Continuer avec Google',
+                        style: TextStyle(color: Colors.black87),
                       ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(16),
                         ),
                       ),
                     ),
@@ -303,13 +318,13 @@ class _LoginPageState extends State<LoginPage> {
                         height: 24,
                       ),
                       label: const Text(
-                        'Facebook',
+                        'Continuer avec Facebook',
                         style: TextStyle(color: Colors.white),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF4361EE),
+                        backgroundColor: const Color(0xFF1877F2),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(16),
                         ),
                       ),
                     ),
@@ -330,7 +345,8 @@ class _LoginPageState extends State<LoginPage> {
                         child: const Text(
                           "S'inscrire",
                           style: TextStyle(
-                            color: Color(0xFF9B5DE5),
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
